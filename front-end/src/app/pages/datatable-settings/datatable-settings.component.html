@@ -1,0 +1,40 @@
+<nb-card class="datatable-settings-card">
+  <nb-card-header>
+    <div class="row mt-2 mb-2">
+      <div class="col-md-10 text-left">
+        Data table settings
+      </div>
+      <div class="col-md-2 text-right">
+        <button nbButton (click)='closeDialog()' size='small' status='danger' nbTooltip='Back to theme list'
+          class="mr-2">
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="row mt-2 mb-4 mr-2 font-weight-bold text-center">
+      <div class="col-md-6">Dimensions</div>
+      <div class="col-md-6">Position</div>       
+    </div>
+    <div class="row mt-2 mb-2 mr-2" *ngFor="let dim of dimensionList">
+      <div class="col-md-6 text-left">{{ dim.label }}</div>
+      <div class="col-md-6 text-left"> 
+        <nb-select fullWidth [(selected)]="dim.type" (selectedChange)="onChange($event, dim.id)">
+          <nb-option *ngFor="let option of options" [value]="option.value"> {{ option.label }}</nb-option>          
+        </nb-select></div>
+    </div>
+  </nb-card-body>
+
+  <nb-card-footer>
+    <div class="row mt-2 mb-2">
+      <div class="col-md-12 text-right">
+        <button nbButton (click)='save()' status='success' nbTooltip='{{tooltipText}}' disabled="{{saveButtonDisabled}}">
+          <nb-icon icon="save-outline"></nb-icon>OK
+        </button>
+      </div>
+    </div>
+  </nb-card-footer>
+
+</nb-card>

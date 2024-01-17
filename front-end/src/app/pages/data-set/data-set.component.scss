@@ -1,0 +1,13 @@
+@import '../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .select-label{
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    padding-left: 0.1rem;
+  }  
+}

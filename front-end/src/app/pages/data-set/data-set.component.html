@@ -1,0 +1,52 @@
+<nb-card *ngIf="datasetLoaded">
+
+  <nb-card-header>
+
+    <div class="row">
+      <div class="col-9 text-left">
+        {{datasetFacade.dataset.desc}}
+      </div>
+      <div class="col-3 text-right">
+        <button nbButton outline (click)='closeDialog()' size='small' status='warning' nbTooltip='Back to theme list' class="mr-2">
+          <nb-icon icon="arrow-back-outline"></nb-icon>
+        </button>
+
+        <button nbButton (click)='onClickButtonSettings()' size='small' status='warning' nbTooltip='Table data settings'
+          class="mr-2">
+          <nb-icon icon="options-outline"></nb-icon>
+        </button>
+
+        <button nbButton outline  (click)='exportToCsv()' size='small' status='warning'
+          nbTooltip='Download selected table in CSV format' class="mr-2">CSV</button>
+
+        <a href="{{urlCSVDataset}}" nbTooltip='Download full dataset in CSV format' target="_blank">
+          <nb-icon icon="download-outline"></nb-icon></a>
+
+      </div>
+    </div>
+
+  </nb-card-header>
+
+
+  <nb-card-body>
+
+    <div class="row mb-1 text-left">
+      <div *ngFor="let filter of filters" class="col-md-3">
+        {{filter.label}}
+      </div>
+    </div>
+    <div class="row mb-2 text-left">
+      <div *ngFor="let filter of filters" class="col-md-3">
+        <nb-select fullwidth (selectedChange)="onChangeFilter($event, filter.id)" selected="{{filter.value}}">
+          <nb-option *ngFor="let option of filter.options" value="{{option.value}}">{{option.label}}</nb-option>
+        </nb-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <ng2-smart-table [settings]="settings" [source]="data" [exportToCsv]="'true'"></ng2-smart-table>
+      </div>
+    </div>
+  </nb-card-body>
+
+</nb-card>

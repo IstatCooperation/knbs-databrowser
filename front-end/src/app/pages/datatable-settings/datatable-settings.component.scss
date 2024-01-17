@@ -1,0 +1,16 @@
+::ng-deep {
+  nb-layout-column {
+    height: 80vw;
+  }
+
+  button + button {
+    margin-left: 1rem;
+  }
+
+  .datatable-settings-card {
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 25em;
+    height: auto;
+  }
+}

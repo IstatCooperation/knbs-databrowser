@@ -1,1 +1,2 @@
-readme file
+# JsonStatDataBrowserFE
+JsonStat Data Browser Angular frontend

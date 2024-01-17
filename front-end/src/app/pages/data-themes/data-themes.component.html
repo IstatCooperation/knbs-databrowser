@@ -1,0 +1,16 @@
+<nb-card *ngIf="dataLoaded">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-md-12 text-left">DATA</div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <nb-tabset (changeTab)="changeTab($event)">
+      <nb-tab *ngFor="let theme of themesList" tabTitle="{{theme.desc}}" [active]="selectedTabTitle == theme.desc">
+        <ngx-data-set-list [theme]="theme"></ngx-data-set-list>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+
+</nb-card>
