@@ -11,7 +11,7 @@
 export const environment = {
   production: false,
 
-  THEMES_LIST_URL : "http://92.205.128.96/getDatasetList",    
-  
-  DATASET_URL : "http://92.205.128.96/getDataset"  
+  THEMES_LIST_URL : "http://api1.knbs.or.ke/getDatasetList",    
+
+  DATASET_URL : "http://api1.knbs.or.ke/getDataset"   
 };
