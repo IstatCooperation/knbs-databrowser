@@ -1,0 +1,8 @@
+node_modules
+/*.gitignore
+/.angular
+/*.code-workspace
+/installing.txt
+/Readme.md
+package-lock.json
+/dist
