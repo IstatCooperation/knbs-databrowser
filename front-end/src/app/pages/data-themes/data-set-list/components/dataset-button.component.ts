@@ -7,7 +7,8 @@ import { DatasetFacade } from '../../../dataset-facade';
   selector: "dataset-button",
   template: `<button  nbButton fullwidth outline  (click)='openDatasetComponent()' 
     size='small' [disabled]="disabled" status='{{status}}' 
-    nbTooltip='{{ tooltipText }}' class="mb-2 mr-2">{{text}}</button>`
+    nbTooltip='{{ tooltipText }}' class="mb-2 mr-2">
+    <nb-icon icon="arrow-forward-outline"></nb-icon></button>`
 })
 
 export class DataSetButton implements OnInit {
@@ -15,7 +16,6 @@ export class DataSetButton implements OnInit {
   @Input() dataset: any;
 
   newModal: boolean = false;
-  text: string;
   tooltipText: string;
   icon: string;
   status: string;
@@ -26,8 +26,7 @@ export class DataSetButton implements OnInit {
   }
 
   ngOnInit() {
-    this.tooltipText = this.dataset.desc;
-    this.text = this.dataset.desc.substr(0, 20);
+    this.tooltipText = "Open " + this.dataset.name + " table";
     this.icon = "cube-outline";
     this.status = "warning";
   }

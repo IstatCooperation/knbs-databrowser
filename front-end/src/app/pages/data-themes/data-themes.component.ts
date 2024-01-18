@@ -21,7 +21,7 @@ export class DataThemesComponent {
     this.jsonStatService.getThemesList(AppData.LANG).subscribe(
       data => {
         this.themesList = data;
-        this.dataLoaded = true;
+        this.dataLoaded = true;    
       },
       error => {
         console.log(error);

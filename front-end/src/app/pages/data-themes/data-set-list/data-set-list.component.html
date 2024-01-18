@@ -3,21 +3,15 @@
   </nb-card-header>
 
   <nb-card-body>
-    <!--div class="row md-5">
-      <div class="col-md-12">
-        <dataset-button *ngFor="let dataset of dataSetList" [dataset]="dataset" nbButton class="mb-2 mr-2">
-        </dataset-button>
-      </div>
-    </div-->
 
-    <div class="row md-5" *ngFor="let dataset of dataSetList">
-      <div class="col-md-4">
-        <dataset-button [dataset]="dataset" nbButton class="mb-2 mr-2"></dataset-button>
+    <div class="row md-5 align-items-center" *ngFor="let dataset of dataSetList">
+      <div class="col-md-1 text-center">
+        <dataset-button [dataset]="dataset" nbButton class="mr-2"></dataset-button>
       </div>
-      <div class="col-md-6">{{dataset.desc}}</div>
-      <div class="col-md-2">
-        <a href="{{getUrlDownloadCSV(dataset.id)}}"  
-        nbTooltip='Download full dataset {{dataset.desc}} in CSV format' 
+      <div class="col-md-3">{{dataset.name}}</div>
+      <div class="col-md-7">{{dataset.desc}}</div>
+      <div class="col-md-1 text-center">
+        <a href="{{getUrlDownloadCSV(dataset.id)}}" nbTooltip='Download full dataset {{dataset.name}} in CSV format' 
         target="_blank"><nb-icon icon="download-outline"></nb-icon></a>
       </div>
     </div>    
