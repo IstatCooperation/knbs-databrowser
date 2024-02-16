@@ -53,10 +53,11 @@ export class DataSetComponent {
     this.datasetLoaded = false;
     this.url = environment.DATASET_URL + "?id=" + id;
     this.urlCSVDataset = this.url + "&type=csv";
+    
     this.jsonData = await JSONstat(this.url);
+
     let dimensions = this.datasetService.getDefaultDimList(this.jsonData.__tree__.dimension);
     this.datasetFacade.setDimensionsAndMeta(dimensions);
-
 
     let meta = this.datasetFacade.getMeta();
     if (meta) {
@@ -67,8 +68,7 @@ export class DataSetComponent {
     }
 
     this.datasetLoaded = true;
-  }
-
+  } 
 
   private setDefaultTableData(meta : any) {
     this.setDataAndFilters(meta, true);
@@ -101,7 +101,6 @@ export class DataSetComponent {
 
     if (setDefaultfilter === true)
       this.filters = this.getFilterObjList(this.datasetFacade.getDimensions());
-
     this.datasetLoaded = true;
   }
 
@@ -135,10 +134,18 @@ export class DataSetComponent {
 
 
   private getFilterObjFromDimension(dimCode: any, dimension: any) : FilterDimension {
+    let sortedKeys = Object.keys(dimension.category.index).sort();
     let options : Option [] = [];
-    for (var i in dimension.category.index) {
+
+    sortedKeys.forEach(key => {
+      console.log("key " + key + " " + dimension.category.label[key]);
+      options.push(new Option(key, dimension.category.label[key]));     
+    })
+
+    /*for (var i in dimension.category.index) {      
       options.push(new Option(i, dimension.category.label[i]));     
-    }
+    }*/
+    
     return new FilterDimension (dimCode, dimension.label, options[0].value, options);
   }  
 

@@ -9,7 +9,7 @@ export class DatasetService {
   constructor() { }
 
   public getSmartTableColums(data: any, meta: any) {
-    let cols = data.Dimension(meta.column).id;
+    let cols = Object(data.Dimension(meta.column).id).sort();
     let result = {
       category: {
         title: 'Data',
@@ -26,15 +26,14 @@ export class DatasetService {
   };
 
   public getSmartTableData(jsonData: any, meta: any) {
-    let rows = jsonData.Dimension(meta.row).id;
-    let cols = jsonData.Dimension(meta.column).id;
+    let rows = Object(jsonData.Dimension(meta.row).id).sort();
+    let cols = Object(jsonData.Dimension(meta.column).id).sort();
     let constraint = {};
 
     // initialize constraint
     meta.filter.forEach(filter => {
       constraint[filter.id] = filter.value;
     });
-    //constraint[meta.filter.id] = meta.filter.value;
 
     let outputTable = [];
     let outputRow = {};

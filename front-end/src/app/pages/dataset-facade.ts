@@ -61,7 +61,6 @@ export class DatasetFacade {
         let rowCode: any;
         let columnCode: any;
         let filters : {}[] = [];
-        let ind : any;
 
         for (var dimCode in dimensions) {
             switch (dimensions[dimCode].type) {
