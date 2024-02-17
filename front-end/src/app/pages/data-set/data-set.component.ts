@@ -138,7 +138,6 @@ export class DataSetComponent {
     let options : Option [] = [];
 
     sortedKeys.forEach(key => {
-      console.log("key " + key + " " + dimension.category.label[key]);
       options.push(new Option(key, dimension.category.label[key]));     
     })
 

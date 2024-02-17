@@ -28,7 +28,7 @@ export class DatasetService {
   public getSmartTableData(jsonData: any, meta: any) {
     let rows = Object(jsonData.Dimension(meta.row).id).sort();
     let cols = Object(jsonData.Dimension(meta.column).id).sort();
-    let constraint = {};
+    let constraint = {};   
 
     // initialize constraint
     meta.filter.forEach(filter => {
@@ -51,7 +51,7 @@ export class DatasetService {
   }
 
   /**
-     * Crea l'oggetto 'meta' di default
+     * Crea l'oggetto 'meta' di default e setta dimensioni di default
      * @param dimensions 
      */
   public getDefaultDimList(dimensions: any) {
@@ -76,5 +76,9 @@ export class DatasetService {
     }
     return dimensions;
   };
+
+  private isDimensionHierarchical (dimension : any) : boolean {
+    return !(dimension.category.child == null);
+  }
 
 }

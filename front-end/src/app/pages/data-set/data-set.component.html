@@ -37,7 +37,7 @@
     </div>
     <div class="row mb-2 text-left">
       <div *ngFor="let filter of filters" class="col-md-3">
-        <nb-select fullwidth 
+        <nb-select fullWidth
           (selectedChange)="onChangeFilter($event, filter.id)" 
           selected="{{filter.value}}">
           <nb-option *ngFor="let option of filter.options" value="{{option.value}}">{{option.label}}</nb-option>
