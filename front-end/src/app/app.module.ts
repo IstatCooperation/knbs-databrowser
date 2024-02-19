@@ -24,6 +24,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DataTableSettingsModule } from './pages/datatable-settings/datatable-settings.module';
 import { DataTableSettingsComponent } from './pages/datatable-settings/datatable-settings.component';
+import { DataCategoryRenderComponent } from './pages/data-set/component/data-category-render.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -56,7 +57,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })    
   ],
-  providers: [DataTableSettingsComponent],
+  providers: [
+    DataTableSettingsComponent
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

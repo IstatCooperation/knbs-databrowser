@@ -57,6 +57,7 @@ export class DataSetComponent {
     this.jsonData = await JSONstat(this.url);
 
     let dimensions = this.datasetService.getDefaultDimList(this.jsonData.__tree__.dimension);
+
     this.datasetFacade.setDimensionsAndMeta(dimensions);
 
     let meta = this.datasetFacade.getMeta();

@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AppData } from "../model/app-data";
+import { DataCategoryRenderComponent } from "../../pages/data-set/component/data-category-render.component";
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,9 @@ export class DatasetService {
     let result = {
       category: {
         title: 'Data',
-        filter: false
+        filter: false,
+        type: 'custom',
+        renderComponent: DataCategoryRenderComponent
       }
     };
     cols.forEach((col, index: number) => {
@@ -26,27 +29,57 @@ export class DatasetService {
   };
 
   public getSmartTableData(jsonData: any, meta: any) {
-    let rows = Object(jsonData.Dimension(meta.row).id).sort();
+    let outputTable = [];
+    let outputRow = {};
+    let constraint = {};
+    let rows: any;
+
     let cols = Object(jsonData.Dimension(meta.column).id).sort();
-    let constraint = {};   
+
+    let child = Object(jsonData.Dimension(meta.row)).__tree__.category.child;
 
     // initialize constraint
     meta.filter.forEach(filter => {
       constraint[filter.id] = filter.value;
     });
 
-    let outputTable = [];
-    let outputRow = {};
-    rows.forEach(row => {
+    if (child) {
+      rows = [];
+      Object.keys(child).sort().forEach(element0 => {
+        rows.push([element0, 0]);
+        child[element0].forEach(element1 => {
+          rows.push([element1, 1]);          
+        });
+      });
+    }
+    else {
+      rows = Object(jsonData.Dimension(meta.row).id).sort();
+    }
+
+    let row : any;
+    let level : any;
+
+    rows.forEach(theRow => {
+      if (Array.isArray(theRow)) {
+        row = theRow[0];
+        level = theRow[1];
+      }
+      else {
+        row = theRow;
+        level = 0
+      }
+
       outputRow = {};
       outputRow["category"] = jsonData.Dimension(meta.row).Category(row).label;
       cols.forEach((col, index: number) => {
         constraint[meta.row] = row;
         constraint[meta.column] = col;
         outputRow["key" + index] = jsonData.Data(constraint, false);
+        outputRow["lvl"] = level;
       });
       outputTable.push(outputRow);
-    });
+    });    
+
     return outputTable;
   }
 
@@ -75,10 +108,6 @@ export class DatasetService {
       count++;
     }
     return dimensions;
-  };
-
-  private isDimensionHierarchical (dimension : any) : boolean {
-    return !(dimension.category.child == null);
   }
 
 }
