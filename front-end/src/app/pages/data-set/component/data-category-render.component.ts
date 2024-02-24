@@ -16,10 +16,14 @@ export class DataCategoryRenderComponent implements ViewCell, OnInit {
 
   indent = "";
 
+  class = "";
+
   ngOnInit() {
     this.renderValue = this.value.toString();
+    this.class = (this.rowData.lvl == 0 ? "font-weight-bold" : "");
     if (this.rowData.lvl > 0)
       this.indent = " " + "-".repeat(this.rowData.lvl) + " ";
+
   }
 
 }

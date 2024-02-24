@@ -135,16 +135,14 @@ export class DataSetComponent {
 
 
   private getFilterObjFromDimension(dimCode: any, dimension: any) : FilterDimension {
+    console.log("dimension");
+    console.log(dimension);
     let sortedKeys = Object.keys(dimension.category.index).sort();
     let options : Option [] = [];
 
     sortedKeys.forEach(key => {
       options.push(new Option(key, dimension.category.label[key]));     
     })
-
-    /*for (var i in dimension.category.index) {      
-      options.push(new Option(i, dimension.category.label[i]));     
-    }*/
     
     return new FilterDimension (dimCode, dimension.label, options[0].value, options);
   }  

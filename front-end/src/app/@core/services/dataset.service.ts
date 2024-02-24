@@ -65,8 +65,8 @@ export class DatasetService {
         level = theRow[1];
       }
       else {
-        row = theRow;
-        level = 0
+        row = theRow;        
+        level = (child ? 0 : null) // level is null if the dimension is not hierachical
       }
 
       outputRow = {};
