@@ -135,8 +135,6 @@ export class DataSetComponent {
 
 
   private getFilterObjFromDimension(dimCode: any, dimension: any) : FilterDimension {
-    console.log("dimension");
-    console.log(dimension);
     let sortedKeys = Object.keys(dimension.category.index).sort();
     let options : Option [] = [];
 
