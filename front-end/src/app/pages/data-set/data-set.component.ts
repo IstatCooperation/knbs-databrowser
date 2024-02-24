@@ -19,9 +19,9 @@ import { exportToCsv } from '../../@core/exports/export';
   styleUrls: ['./data-set.component.scss'],
 })
 export class DataSetComponent {
-  url : any;
+  url: any;
 
-  urlCSVDataset : any;
+  urlCSVDataset: any;
 
   datasetLoaded: boolean = false;
 
@@ -31,7 +31,7 @@ export class DataSetComponent {
 
   settings: any;
 
-  filters : FilterDimension [] = [];
+  filters: FilterDimension[] = [];
 
   constructor(private datasetService: DatasetService,
     private datasetFacade: DatasetFacade,
@@ -48,12 +48,15 @@ export class DataSetComponent {
   }
 
 
-
+  /**
+   * Load dataset based on ID 
+   * @param id 
+   */
   async loadDataset(id: any) {
     this.datasetLoaded = false;
     this.url = environment.DATASET_URL + "?id=" + id;
     this.urlCSVDataset = this.url + "&type=csv";
-    
+
     this.jsonData = await JSONstat(this.url);
 
     let dimensions = this.datasetService.getDefaultDimList(this.jsonData.__tree__.dimension);
@@ -69,46 +72,62 @@ export class DataSetComponent {
     }
 
     this.datasetLoaded = true;
-  } 
+  }
 
-  private setDefaultTableData(meta : any) {
+
+  /**
+   * Set default table data based on metadata
+   * @param meta 
+   */
+  private setDefaultTableData(meta: any) {
     this.setDataAndFilters(meta, true);
   }
 
-  private setTableData(meta : any) {
+  /**
+   * Set table data based on metadata
+   * @param meta 
+   */
+  private setTableData(meta: any) {
     this.setDataAndFilters(meta, false);
-  }  
+  }
 
   /**
-   * 
+   * Set data and filters for the table
    * @param meta 
-   * @param setDefaultfilter true to get default filters data
+   * @param setDefaultfilter (true = set defualt filter)
    */
-  private setDataAndFilters(meta: any, setDefaultfilter : boolean) {
+  private setDataAndFilters(meta: any, setDefaultfilter: boolean) {
     this.datasetLoaded = false;
+
+    this.data = this.datasetService.getSmartTableData(this.jsonData, meta);
+    console.log(this.data);
 
     this.settings = {
       pager: { perPage: 20 },
-      columns: this.datasetService.getSmartTableColums(this.jsonData, meta),
+      columns: this.datasetService.getSmartTableColums(this.jsonData, meta, this.data),
       actions: {
         edit: false,
         delete: false,
         add: false,
         position: 'right'
       }
-    };
-
-    this.data = this.datasetService.getSmartTableData(this.jsonData, meta);
+    };    
 
     if (setDefaultfilter === true)
       this.filters = this.getFilterObjList(this.datasetFacade.getDimensions());
     this.datasetLoaded = true;
   }
 
+  /**
+   * Close the dialog
+   */
   closeDialog() {
     this.router.navigateByUrl('/pages/themes');
   }
 
+  /**
+   * Handle click on settings button
+   */
   onClickButtonSettings() {
     this.dialogService
       .open(DataTableSettingsComponent, {
@@ -122,35 +141,53 @@ export class DataSetComponent {
       });
   }
 
-  
-  private getFilterObjList(dimList: any) : FilterDimension [] {  
-    let filterDimList : FilterDimension [] = [];
+  /**
+   * Generate filter object list from dimensions
+   * @param dimList 
+   * @returns 
+   */
+  private getFilterObjList(dimList: any): FilterDimension[] {
+    let filterDimList: FilterDimension[] = [];
     for (var dimCode in dimList) {
-      if (dimList[dimCode].type === AppData.FILTER_DIM_TYPE) {        
+      if (dimList[dimCode].type === AppData.FILTER_DIM_TYPE) {
         filterDimList.push(this.getFilterObjFromDimension(dimCode, dimList[dimCode]));
       }
-    }  
+    }
     return filterDimList;
-  }  
+  }
 
 
-  private getFilterObjFromDimension(dimCode: any, dimension: any) : FilterDimension {
+  /**
+   * Generate filter object from dimension
+   * @param dimCode 
+   * @param dimension 
+   * @returns 
+   */
+  private getFilterObjFromDimension(dimCode: any, dimension: any): FilterDimension {
     let sortedKeys = Object.keys(dimension.category.index).sort();
-    let options : Option [] = [];
+    let options: Option[] = [];
 
     sortedKeys.forEach(key => {
-      options.push(new Option(key, dimension.category.label[key]));     
+      options.push(new Option(key, dimension.category.label[key]));
     })
-    
-    return new FilterDimension (dimCode, dimension.label, options[0].value, options);
-  }  
 
+    return new FilterDimension(dimCode, dimension.label, options[0].value, options);
+  }
+
+  /**
+   * Handle change in filter value
+   * @param value 
+   * @param filterId 
+   */
   onChangeFilter(value: any, filterId: any) {
     this.datasetFacade.setFilterValue(filterId, value);
     this.setTableData(this.datasetFacade.getMeta());
     this.filters.find(element => element.id == filterId).value = value;
   }
 
+  /**
+   * Export dataset to CSV
+   */
   exportToCsv() {
     exportToCsv(this.data, this.settings)
   }

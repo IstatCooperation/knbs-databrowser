@@ -9,20 +9,38 @@ export class DatasetService {
 
   constructor() { }
 
-  public getSmartTableColums(data: any, meta: any) {
-    let cols = Object(data.Dimension(meta.column).id).sort();
+  public getSmartTableColums(jsonData: any, meta: any, tableData: any) {
+    let cols = Object(jsonData.Dimension(meta.column).id).sort();
     let result = {
       category: {
         title: 'Data',
-        filter: false,
         type: 'custom',
+        filter: {
+          type: 'completer',
+          config: {
+            completer: {
+              data: tableData,
+              searchFields: 'category',
+              titleField: 'category',
+            },
+          },
+        },        
         renderComponent: DataCategoryRenderComponent
       }
     };
-    cols.forEach((col, index: number) => {
+    cols.forEach((col : any, index: number) => {
       result["key" + index] = {
-        title: data.Dimension(meta.column).Category(col).label,
-        filter: false
+        title: jsonData.Dimension(meta.column).Category(col).label,
+        filter: {
+          type: 'completer',
+          config: {
+            completer: {
+              data: tableData,
+              searchFields: "key" + index,
+              titleField: "key" + index,
+            },
+          },
+        },
       };
     })
     return result;
