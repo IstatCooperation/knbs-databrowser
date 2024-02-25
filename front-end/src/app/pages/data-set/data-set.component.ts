@@ -100,7 +100,6 @@ export class DataSetComponent {
     this.datasetLoaded = false;
 
     this.data = this.datasetService.getSmartTableData(this.jsonData, meta);
-    console.log(this.data);
 
     this.settings = {
       pager: { perPage: 20 },
@@ -111,7 +110,7 @@ export class DataSetComponent {
         add: false,
         position: 'right'
       }
-    };    
+    };
 
     if (setDefaultfilter === true)
       this.filters = this.getFilterObjList(this.datasetFacade.getDimensions());
@@ -164,12 +163,24 @@ export class DataSetComponent {
    * @returns 
    */
   private getFilterObjFromDimension(dimCode: any, dimension: any): FilterDimension {
-    let sortedKeys = Object.keys(dimension.category.index).sort();
+
+    let child = dimension.category.child;
+
     let options: Option[] = [];
 
-    sortedKeys.forEach(key => {
-      options.push(new Option(key, dimension.category.label[key]));
-    })
+    if (child) { 
+      Object.keys(child).sort().forEach(element0 => {
+        options.push(new Option(element0, dimension.category.label[element0]));
+        child[element0].forEach(element1 => {
+          options.push(new Option(element1, " - " + dimension.category.label[element1]));
+        });
+      });      
+    }
+    else {
+      Object.keys(dimension.category.index).sort().forEach(key => {
+        options.push(new Option(key, dimension.category.label[key]));
+      })
+    }
 
     return new FilterDimension(dimCode, dimension.label, options[0].value, options);
   }
@@ -192,3 +203,4 @@ export class DataSetComponent {
     exportToCsv(this.data, this.settings)
   }
 }
+
