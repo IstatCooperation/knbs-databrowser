@@ -19,7 +19,7 @@ import { DataTableSettingsModule } from './datatable-settings/datatable-settings
     DataThemesModule,
     MiscellaneousModule,
     DataSetModule,
-    DataTableSettingsModule
+    DataTableSettingsModule,
   ],
   declarations: [
     PagesComponent,

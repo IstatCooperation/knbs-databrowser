@@ -10,19 +10,21 @@ export class DatasetService {
   constructor() { }
 
   public getSmartTableColums(jsonData: any, meta: any, tableData: any) {
-    let cols = Object(jsonData.Dimension(meta.column).id).sort();
+    let cols = Object(jsonData.Dimension(meta.column).id);
     let result = {
       category: {
-        title: 'Data',
+        title: '',
         type: 'custom',
-        filter: false,     
+        filter: false,  
+        sort: false,   
         renderComponent: DataCategoryRenderComponent
       }
     };
     cols.forEach((col : any, index: number) => {
       result["key" + index] = {
         title: jsonData.Dimension(meta.column).Category(col).label,
-        filter: false
+        filter: false,
+        sort: false
       };
     })
     return result;
@@ -53,7 +55,7 @@ export class DatasetService {
       });
     }
     else {
-      rows = Object(jsonData.Dimension(meta.row).id).sort();
+      rows = Object(jsonData.Dimension(meta.row).id);
     }
 
     let row : any;

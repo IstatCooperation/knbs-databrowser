@@ -1,3 +1,7 @@
+<nb-card accent="danger" *ngIf="!datasetLoaded" [nbSpinner]="true">
+  <nb-card-body class="pb-5">Loading data ... </nb-card-body>
+</nb-card>
+
 <nb-card *ngIf="datasetLoaded">
 
   <nb-card-header>
@@ -46,7 +50,9 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <ng2-smart-table [settings]="settings" [source]="data" [exportToCsv]="'true'"></ng2-smart-table>
+        <ng2-smart-table [settings]="settings" 
+          [source]="data" 
+          [exportToCsv]="'true'"></ng2-smart-table>
       </div>
     </div>
   </nb-card-body>

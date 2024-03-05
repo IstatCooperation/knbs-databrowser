@@ -102,7 +102,7 @@ export class DataSetComponent {
     this.data = this.datasetService.getSmartTableData(this.jsonData, meta);
 
     this.settings = {
-      pager: { perPage: 20 },
+      pager: { perPage: 10 },
       columns: this.datasetService.getSmartTableColums(this.jsonData, meta, this.data),
       actions: {
         edit: false,
