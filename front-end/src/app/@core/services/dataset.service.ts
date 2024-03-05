@@ -15,32 +15,14 @@ export class DatasetService {
       category: {
         title: 'Data',
         type: 'custom',
-        filter: {
-          type: 'completer',
-          config: {
-            completer: {
-              data: tableData,
-              searchFields: 'category',
-              titleField: 'category',
-            },
-          },
-        },        
+        filter: false,     
         renderComponent: DataCategoryRenderComponent
       }
     };
     cols.forEach((col : any, index: number) => {
       result["key" + index] = {
         title: jsonData.Dimension(meta.column).Category(col).label,
-        filter: {
-          type: 'completer',
-          config: {
-            completer: {
-              data: tableData,
-              searchFields: "key" + index,
-              titleField: "key" + index,
-            },
-          },
-        },
+        filter: false
       };
     })
     return result;

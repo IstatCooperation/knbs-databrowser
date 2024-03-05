@@ -12,7 +12,7 @@ export class PagesFacade {
     constructor(private toastrService: NbToastrService) { }
 
     public toastError(message: string) {
-        this.toastrService.show(message, "Errore",
+        this.toastrService.show(message, "Error",
             {
                 destroyByClick: true,
                 status: "danger",
