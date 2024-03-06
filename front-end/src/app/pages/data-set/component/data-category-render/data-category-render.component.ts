@@ -20,7 +20,7 @@ export class DataCategoryRenderComponent implements ViewCell, OnInit {
 
   ngOnInit() {
     this.renderValue = this.value.toString();
-    this.class = (this.rowData.lvl == 0 ? "font-weight-bold" : "");
+    this.class = (this.rowData.lvl == 0 || this.rowData.tot ? "font-weight-bold" : "");
     if (this.rowData.lvl > 0)
       this.indent = " " + "-".repeat(this.rowData.lvl) + " ";
 

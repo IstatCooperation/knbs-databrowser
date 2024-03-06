@@ -1,3 +1,16 @@
-table tr td { 
-    padding: 0.2em 1em!important
+.td-number {
+    display : block;
+    text-align: right;
+}
+
+.td-number-bold {
+    display : block;
+    text-align: right;
+    font-weight : bold;
+}
+
+.th-number-bold {
+    text-align: right;
+    font-weight : bold;
+    padding-right: 1.2rem!important;
 }

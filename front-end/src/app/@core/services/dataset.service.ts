@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AppData } from "../model/app-data";
-import { DataCategoryRenderComponent } from "../../pages/data-set/component/data-category-render.component";
+import { DataCategoryRenderComponent } from "../../pages/data-set/component/data-category-render/data-category-render.component";
+import { DataRenderComponent } from "../../pages/data-set/component/data-render/data-render.component";
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +24,11 @@ export class DatasetService {
     cols.forEach((col : any, index: number) => {
       result["key" + index] = {
         title: jsonData.Dimension(meta.column).Category(col).label,
+        type: 'custom',
         filter: false,
-        sort: false
+        sort: false,
+        class : "th-number-bold",
+        renderComponent: DataRenderComponent
       };
     })
     return result;
@@ -60,15 +64,18 @@ export class DatasetService {
 
     let row : any;
     let level : any;
+    let total : boolean;
 
     rows.forEach(theRow => {
       if (Array.isArray(theRow)) {
         row = theRow[0];
         level = theRow[1];
+        total = false;
       }
       else {
         row = theRow;        
         level = (child ? 0 : null) // level is null if the dimension is not hierachical
+        total = (theRow == "T");
       }
 
       outputRow = {};
@@ -78,6 +85,7 @@ export class DatasetService {
         constraint[meta.column] = col;
         outputRow["key" + index] = jsonData.Data(constraint, false);
         outputRow["lvl"] = level;
+        outputRow["tot"] = total;
       });
       outputTable.push(outputRow);
     });    
