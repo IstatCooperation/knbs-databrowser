@@ -18,11 +18,11 @@ export class DatasetFacade {
 
     setFilterValue(filterId: any, value: any) {
         this.meta.filter.find(element => element.id == filterId).value = value;
-    }    
+    }
 
     setDimensionType(dimCode: any, dimType: any) {
         this.dimensions[dimCode].type = dimType;
-    }    
+    }
 
     public setDimensionsAndMeta(dimList: any) {
         this.dimensions = dimList;
@@ -60,7 +60,8 @@ export class DatasetFacade {
     private getMetaFromDimensionList(dimensions: any) {
         let rowCode: any;
         let columnCode: any;
-        let filters : {}[] = [];
+        let filters: {}[] = [];
+        let theValue: any;
 
         for (var dimCode in dimensions) {
             switch (dimensions[dimCode].type) {
@@ -71,7 +72,11 @@ export class DatasetFacade {
                     columnCode = dimCode;
                     break;
                 case AppData.FILTER_DIM_TYPE:
-                    filters.push({ id: dimCode, value: "" + Object.keys(dimensions[dimCode].category.index)[0] });
+                    if (dimensions[dimCode].category.child)
+                        theValue = Object.keys(dimensions[dimCode].category.child).sort()[0];
+                    else
+                        theValue = Object.keys(dimensions[dimCode].category.index)[0];
+                    filters.push({ id: dimCode, value: "" + theValue });
                     break;
             }
         }

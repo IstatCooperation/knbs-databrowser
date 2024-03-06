@@ -33,6 +33,11 @@ export class DataSetComponent {
 
   filters: FilterDimension[] = [];
 
+  exportDesc  = {
+    datasetDesc : "",
+    filterDesc : ""
+  };
+
   constructor(private datasetService: DatasetService,
     private datasetFacade: DatasetFacade,
     private pagesfacade: PagesFacade,

@@ -40,7 +40,7 @@ export class DatasetService {
     let constraint = {};
     let rows: any;
 
-    let cols = Object(jsonData.Dimension(meta.column).id).sort();
+    let cols = Object(jsonData.Dimension(meta.column).id);
 
     let child = Object(jsonData.Dimension(meta.row)).__tree__.category.child;
 
