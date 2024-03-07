@@ -22,11 +22,23 @@ export const prepareColumnMap = (settingColumns: any): Map<string, TableColumn> 
     return columnMap;
 }
 
-export const exportToCsv = (data: any, settingColumns: any) => {
+export const exportDataToCsv = (data: any, settingColumns: any, title : any, filters : any) => {
     const columnMap = prepareColumnMap(settingColumns.columns);
     const columns: TableColumn[] = Array.from(columnMap.values());
 
-    let encodedStr = columns.reduce((acct, current: TableColumn) => {
+    let encodedStr = "KNBS Data Browser";
+    encodedStr += '\r\n';
+
+    encodedStr += title;
+    encodedStr += '\r\n';
+
+    filters.forEach(filter => {
+        encodedStr += filter.label + ": " + filter.value + '\r\n';
+    });
+
+    encodedStr += '\r\n';
+
+    encodedStr += columns.reduce((acct, current: TableColumn) => {
         if (current.isExport !== false) {
             return acct += '"' + current.title + '",';
         } else {

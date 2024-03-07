@@ -10,7 +10,7 @@ import { AppData } from '../../@core/model/app-data';
 import { environment } from '../../../environments/environment';
 import { FilterDimension } from '../../@core/model/filter-Dimension';
 import { Option } from '../../@core/model/option';
-import { exportToCsv } from '../../@core/exports/export';
+import { exportDataToCsv } from '../../@core/exports/export';
 
 
 @Component({
@@ -32,11 +32,6 @@ export class DataSetComponent {
   settings: any;
 
   filters: FilterDimension[] = [];
-
-  exportDesc  = {
-    datasetDesc : "",
-    filterDesc : ""
-  };
 
   constructor(private datasetService: DatasetService,
     private datasetFacade: DatasetFacade,
@@ -205,7 +200,20 @@ export class DataSetComponent {
    * Export dataset to CSV
    */
   exportToCsv() {
-    exportToCsv(this.data, this.settings)
+    exportDataToCsv(this.data, 
+      this.settings,
+      this.datasetFacade.getDataSet().desc,
+      this.getFilterDescFromMeta(this.datasetFacade.getMeta()));
+  }
+
+  private getFilterDescFromMeta (meta : any) {
+    let dimension : any;
+    let filtersDesc = [];
+    meta.filter.forEach(theFilter => {
+      dimension = this.datasetFacade.getDimensions()[theFilter.id];
+      filtersDesc.push({label : dimension.label, value : dimension.category.label[theFilter.value]});
+    });
+    return filtersDesc;
   }
 }
 
